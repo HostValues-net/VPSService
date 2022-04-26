@@ -12,7 +12,7 @@ cd /var/fivem
 sleep 5
 
 ### FiveM Installer ###
-FIVEM_ARTIFACT_VERSION=5104-5ebb6dfe826667c841027d6dbc7390e42abfb196
+FIVEM_ARTIFACT_VERSION=5535-1113ba593dd141261571138417bfb5aa73e769d5
 
 coninfo Updating and upgrading apt
 sudo apt-get update -y && sudo apt-get upgrade -y
@@ -89,7 +89,7 @@ sets locale "root-AQ"
 #sets banner_connecting "https://url.to/image.png"
 
 # Set your server's hostname
-sv_hostname "FXServer, but unconfigured"
+sv_hostname "Hosted by Hostvalues.net"
 
 # Set your server's Project Name
 sets sv_projectName "My FXServer Project"
@@ -169,7 +169,7 @@ EOF"
 sudo chmod +x /usr/bin/fivem_stopserver
 
 # FiveM txAdmin Enable script
-conwarn Creating FiveM txAdmin enable scrip
+conwarn Creating FiveM txAdmin enable script
 sudo bash -c "cat > /usr/bin/fivem_txadminenable << EOF
 #!/bin/bash
 sudo rm /usr/bin/fivem_startserver
