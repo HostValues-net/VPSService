@@ -1,6 +1,6 @@
 #!/bin/bash
 ### Main Installer ###
-INSTALLER_SCRIPT="cubeshostvpsservice-master/installer/main.sh"
+INSTALLER_SCRIPT="VPSService-master/installer/main.sh"
 . $INSTALLER_SCRIPT
 
 # Logo
