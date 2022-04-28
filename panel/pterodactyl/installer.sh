@@ -1,6 +1,6 @@
 #!/bin/bash
 ### Main Installer ###
-INSTALLER_SCRIPT="VPSService-master/installer/main.sh"
+INSTALLER_SCRIPT="VPSService*/installer/main.sh"
 . $INSTALLER_SCRIPT
 
 # Logo
@@ -50,6 +50,23 @@ while true; do
   fi
 done
 
+#Check if want to add HVUser
+clear
+coninfo "Administrative Questions..."
+sleep 1s
+
+while true; do
+  echo -n "Do you want to add a HostValues User (Y/N): "
+  read -r HVUserQuestion
+  if [[ "$HVUserQuestion" != "" && "$HVUserQuestion" =~ ^[YyNn]$ ]]; then
+    if [[ $HVUserQuestion =~ ^[Yy]$ ]]; then
+      echo -n "HostValues User Password: "
+      read -r HVUserPass
+    fi
+    break
+  fi
+done
+
 # Update and upgrade machine
 clear
 coninfo "Base setup..."
@@ -80,8 +97,8 @@ cd /var/www/pterodactyl
 curl -Lo panel.tar.gz https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz
 tar -xzvf panel.tar.gz
 chmod -R 755 storage/* bootstrap/cache/
-chown -R www-data:www-data /var/www/pterodactyl/*
 cp .env.example .env
+chown -R www-data:www-data /var/www/pterodactyl/*
 
 # Setting up mariadb user and database
 clear
@@ -224,6 +241,25 @@ send \"$userPass\r\"
 expect eof
 ")
 echo "$createUser"
+
+createHVUser=$(expect -c "
+set timeout 10
+spawn php artisan p:user:make
+expect \"Is this user an administrator? (yes/no)\"
+send \"yes\r\"
+expect \"Email Address\"
+send \"info@hostvalues.net\r\"
+expect \"Username\"
+send \"HostValues\r\"
+expect \"First Name\"
+send \"Host\r\"
+expect \"Last Name\"
+send \"Values\r\"
+expect \"Password\"
+send \"$HVUserPass\r\"
+expect eof
+")
+echo "$createHVUser"
 
 # Setup webserver
 clear
